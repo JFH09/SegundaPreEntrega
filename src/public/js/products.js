@@ -11,7 +11,7 @@ let hasNextPage = "";
 let prevPage = "";
 let nextPage = "";
 
-socket.on("getListaProductos", (data) => {
+socket.on("getListaProductos", async (data) => {
   console.log("se van a obtener la lista de productos....");
   getProducts();
   socket.emit("contraResp");
@@ -337,7 +337,9 @@ async function editarProducto(productId) {
       id: product.id,
     };
     console.log("producto editado final -> ", producto);
-    await fetch(currentUrl + "/" + productId, {
+    let urlAux = currentUrl.split("?");
+    console.log("haciendo put a url : ", urlAux[0] + "/" + productId);
+    await fetch(urlAux[0] + "/" + productId, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -349,9 +351,9 @@ async function editarProducto(productId) {
         console.log(result);
       });
     socket.emit("productoEditado", producto);
-    Swal.fire("Producto editado con exito!!!", "", "success");
+    await Swal.fire("Producto editado con exito!!!", "", "success");
   } else {
-    Swal.fire("no se edito el producto!!!", "", "info");
+    await Swal.fire("no se edito el producto!!!", "", "info");
   }
 }
 
@@ -361,7 +363,11 @@ function enviandoValores(formValues) {
 async function obtenerProductoById(productId) {
   console.log("enrto a obtener producto ById ", productId);
   let product = "";
-  await fetch(currentUrl + "/" + productId)
+  console.log("currentUrl en obtenerProductoById -> ", currentUrl);
+  let urlAux = currentUrl.split("/api");
+  console.log("urlAux = ", urlAux);
+  console.log("haciendo fetch a -> ", urlAux[0] + "/" + productId);
+  await fetch(urlAux[0] + "/api/products/" + productId)
     .then((response) => response.json())
     .then((result) => {
       console.log("Result en obtenerProductoById");

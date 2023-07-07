@@ -100,20 +100,20 @@ router.get("/productsList", async (req, res) => {
   }
 });
 
-// router.get("/:id", async (req, res) => {
-//   console.log("ENTRO A GET ID ***************");
-//   let { id } = req.params;
-//   console.log("Entro a obtener product by id", id);
-//   try {
-//     let producto = await productModel.findOne({ _id: id });
-//     console.log("producto...**********");
-//     console.log(producto);
-//     res.status(201).json(producto);
-//   } catch (error) {
-//     console.log("No se pudo obtener los productos con mongoose : ", error);
-//     res.status(400).json("error", error);
-//   }
-// });
+router.get("/:id", async (req, res) => {
+  console.log("ENTRO A GET ID ***************");
+  let { id } = req.params;
+  console.log("Entro a obtener product by id", id);
+  try {
+    let producto = await productModel.findOne({ _id: id });
+    console.log("producto...**********");
+    console.log(producto);
+    res.status(201).json(producto);
+  } catch (error) {
+    console.log("No se pudo obtener los productos con mongoose : ", error);
+    res.status(400).json("error", error);
+  }
+});
 
 router.post(
   /*"/:title/:description/:price/:thumbnail/:code/:stock"*/ "/",
